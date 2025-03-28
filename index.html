@@ -1,78 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Portal</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        .hidden { display: none; }
-        .dashboard { border: 1px solid #ccc; padding: 20px; margin-top: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #343a40;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.3rem;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1>School Portal</h1>
+    </header>
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Student Info</a>
+        <a href="#">Grades / Marks</a>
+        <a href="#">Enrollment</a>
+        <a href="#">Reports</a>
+    </nav>
     <div class="container">
-        <h2>School Portal</h2>
-        <div id="login">
-            <input type="text" id="username" placeholder="Enter Name">
-            <button onclick="login()">Login</button>
-        </div>
-        
-        <div id="dashboard" class="hidden">
-            <h3>Welcome, <span id="studentName"></span></h3>
-            <p>Course: <span id="studentCourse"></span></p>
-            <p>Year Level: <span id="studentYear"></span></p>
-            <h4>Available Subjects:</h4>
-            <ul id="subjectList"></ul>
-            <button onclick="enroll()">Enroll in Selected Subjects</button>
-            <h4>Enrolled Subjects:</h4>
-            <ul id="enrolledSubjects"></ul>
-        </div>
+        <h2>Student Registration</h2>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="rollNumber">Roll Number</label>
+                <input type="text" id="rollNumber" name="rollNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="course">Course</label>
+                <select id="course" name="course">
+                    <option value="BSIT">BSIT</option>
+                    <option value="BSCS">BSCS</option>
+                    <option value="BBA">BBA</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="yearLevel">Year Level</label>
+                <select id="yearLevel" name="yearLevel">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <h2>Enrolled Students</h2>
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Roll Number</th>
+                    <th>Course</th>
+                    <th>Year Level</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    
+
     <script>
-        const subjects = ["Programming 1", "Data Structures"];
-        let enrolledSubjects = [];
-        
-        function login() {
-            const name = document.getElementById("username").value;
-            if (name) {
-                document.getElementById("studentName").innerText = name;
-                document.getElementById("studentCourse").innerText = "BSIT";
-                document.getElementById("studentYear").innerText = "1st Year";
-                document.getElementById("login").classList.add("hidden");
-                document.getElementById("dashboard").classList.remove("hidden");
-                loadSubjects();
-            }
-        }
-        
-        function loadSubjects() {
-            const subjectList = document.getElementById("subjectList");
-            subjectList.innerHTML = "";
-            subjects.forEach(sub => {
-                const li = document.createElement("li");
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.value = sub;
-                li.appendChild(checkbox);
-                li.appendChild(document.createTextNode(" " + sub));
-                subjectList.appendChild(li);
-            });
-        }
-        
-        function enroll() {
-            const checkboxes = document.querySelectorAll("#subjectList input:checked");
-            enrolledSubjects = Array.from(checkboxes).map(cb => cb.value);
-            
-            const enrolledList = document.getElementById("enrolledSubjects");
-            enrolledList.innerHTML = "";
-            enrolledSubjects.forEach(sub => {
-                const li = document.createElement("li");
-                li.innerText = sub;
-                enrolledList.appendChild(li);
-            });
-        }
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const rollNumber = document.getElementById('rollNumber').value;
+            const course = document.getElementById('course').value;
+            const yearLevel = document.getElementById('yearLevel').value;
+
+            const table = document.querySelector('#studentTable tbody');
+            const newRow = table.insertRow();
+            newRow.innerHTML = `<td>${fullName}</td><td>${rollNumber}</td><td>${course}</td><td>${yearLevel}</td>`;
+            document.getElementById('registrationForm').reset();
+        });
     </script>
 </body>
 </html>
