@@ -77,6 +77,7 @@
     <nav>
         <a onclick="showSection('adminSection')">Admin Panel</a>
         <a onclick="showSection('studentSection')">Student Portal</a>
+        <a onclick="showSection('enrolledSection')">Enrolled Students</a>
     </nav>
 
     <div class="container" id="adminSection">
@@ -117,10 +118,6 @@
                 <input type="text" id="fullName" name="fullName" required>
             </div>
             <div class="form-group">
-                <label for="rollNumber">Roll Number</label>
-                <input type="text" id="rollNumber" name="rollNumber" required>
-            </div>
-            <div class="form-group">
                 <label for="course">Course</label>
                 <select id="course" name="course"></select>
             </div>
@@ -135,12 +132,14 @@
             </div>
             <button type="submit" class="btn">Register</button>
         </form>
+    </div>
+
+    <div class="container hidden" id="enrolledSection">
         <h2>Enrolled Students</h2>
         <table id="studentTable">
             <thead>
                 <tr>
                     <th>Full Name</th>
-                    <th>Roll Number</th>
                     <th>Course</th>
                     <th>Year Level</th>
                 </tr>
@@ -156,6 +155,7 @@
         function showSection(section) {
             document.getElementById('adminSection').classList.add('hidden');
             document.getElementById('studentSection').classList.add('hidden');
+            document.getElementById('enrolledSection').classList.add('hidden');
             document.getElementById(section).classList.remove('hidden');
         }
 
@@ -181,13 +181,12 @@
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const fullName = document.getElementById('fullName').value;
-            const rollNumber = document.getElementById('rollNumber').value;
             const course = document.getElementById('course').value;
             const yearLevel = document.getElementById('yearLevel').value;
             const table = document.querySelector('#studentTable tbody');
             const newRow = table.insertRow();
-            newRow.innerHTML = `<td>${fullName}</td><td>${rollNumber}</td><td>${course}</td><td>${yearLevel}</td>`;
-            students.push({ fullName, rollNumber, course, yearLevel });
+            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td>`;
+            students.push({ fullName, course, yearLevel });
             document.getElementById('registrationForm').reset();
         });
 
