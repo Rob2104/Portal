@@ -156,6 +156,7 @@
                     <th>Full Name</th>
                     <th>Course</th>
                     <th>Year Level</th>
+                    <th>Subjects</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -199,9 +200,23 @@
             const yearLevel = document.getElementById('adminYearLevel').value;
             const table = document.querySelector('#studentTable tbody');
             const newRow = table.insertRow();
-            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td>`;
-            students.push({ fullName, course, yearLevel });
+            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td><td>-</td>`;
+            students.push({ fullName, course, yearLevel, subjects: '-' });
             document.getElementById('addStudentForm').reset();
+        });
+
+        document.getElementById('enrollForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const enrollName = document.getElementById('enrollName').value;
+            const enrollSubjects = document.getElementById('enrollSubjects').value;
+            const table = document.querySelector('#studentTable tbody');
+            for (let row of table.rows) {
+                if (row.cells[0].innerText === enrollName) {
+                    row.cells[3].innerText = enrollSubjects;
+                }
+            }
+            alert(`${enrollName} enrolled successfully with subjects: ${enrollSubjects}`);
+            document.getElementById('enrollForm').reset();
         });
 
         function updateCourseDropdown() {
