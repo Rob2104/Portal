@@ -108,29 +108,43 @@
             </div>
             <button type="submit" class="btn">Add Subject</button>
         </form>
-    </div>
 
-    <div class="container hidden" id="studentSection">
-        <h2>Student Registration</h2>
-        <form id="registrationForm">
+        <h3>Add Student</h3>
+        <form id="addStudentForm">
             <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" required>
+                <label for="adminFullName">Full Name</label>
+                <input type="text" id="adminFullName" name="adminFullName" required>
             </div>
             <div class="form-group">
-                <label for="course">Course</label>
-                <select id="course" name="course"></select>
+                <label for="adminCourse">Course</label>
+                <select id="adminCourse" name="adminCourse"></select>
             </div>
             <div class="form-group">
-                <label for="yearLevel">Year Level</label>
-                <select id="yearLevel" name="yearLevel">
+                <label for="adminYearLevel">Year Level</label>
+                <select id="adminYearLevel" name="adminYearLevel">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
                     <option value="4">4th Year</option>
                 </select>
             </div>
-            <button type="submit" class="btn">Register</button>
+            <button type="submit" class="btn">Add Student</button>
+        </form>
+    </div>
+
+    <div class="container hidden" id="studentSection">
+        <h2>Student Portal</h2>
+        <h3>Enroll in Subjects</h3>
+        <form id="enrollForm">
+            <div class="form-group">
+                <label for="enrollName">Full Name</label>
+                <input type="text" id="enrollName" name="enrollName" required>
+            </div>
+            <div class="form-group">
+                <label for="enrollSubjects">Subjects</label>
+                <input type="text" id="enrollSubjects" name="enrollSubjects" placeholder="Enter subjects (comma-separated)">
+            </div>
+            <button type="submit" class="btn">Enroll</button>
         </form>
     </div>
 
@@ -178,20 +192,20 @@
             document.getElementById('subjectForm').reset();
         });
 
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const fullName = document.getElementById('fullName').value;
-            const course = document.getElementById('course').value;
-            const yearLevel = document.getElementById('yearLevel').value;
+            const fullName = document.getElementById('adminFullName').value;
+            const course = document.getElementById('adminCourse').value;
+            const yearLevel = document.getElementById('adminYearLevel').value;
             const table = document.querySelector('#studentTable tbody');
             const newRow = table.insertRow();
             newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td>`;
             students.push({ fullName, course, yearLevel });
-            document.getElementById('registrationForm').reset();
+            document.getElementById('addStudentForm').reset();
         });
 
         function updateCourseDropdown() {
-            const courseDropdown = document.getElementById('course');
+            const courseDropdown = document.getElementById('adminCourse');
             courseDropdown.innerHTML = courses.map(course => `<option value="${course}">${course}</option>`).join('');
         }
     </script>
