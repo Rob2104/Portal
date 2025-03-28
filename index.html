@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+        }
+        button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Web-Based Enrollment System</h1>
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" onclick="showAdminPanel()">Admin Panel</button>
+            <button class="btn btn-success" onclick="showStudentPortal()">Student Portal</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="container mt-5 d-none">
+        <h2>Admin Panel</h2>
+        <button class="btn btn-secondary mb-3" onclick="goBack()">Back</button>
+
+        <h4>Manage Courses & Subjects</h4>
+        <input type="text" id="courseName" class="form-control mb-2" placeholder="Enter Course Name">
+        <button class="btn btn-primary" onclick="addCourse()">Add Course</button>
+
+        <h4 class="mt-4">Student Enrollment</h4>
+        <input type="text" id="studentName" class="form-control mb-2" placeholder="Enter Student Name">
+        <button class="btn btn-success" onclick="addStudent()">Add Student</button>
+
+        <h4 class="mt-4">Enrollment Statistics</h4>
+        <canvas id="enrollmentChart"></canvas>
+    </div>
+
+    <!-- Student Portal -->
+    <div id="studentPortal" class="container mt-5 d-none">
+        <h2>Student Portal</h2>
+        <button class="btn btn-secondary mb-3" onclick="goBack()">Back</button>
+
+        <h4>Select Course</h4>
+        <select id="selectCourse" class="form-control mb-2"></select>
+
+        <h4>Enroll in Subject</h4>
+        <select id="selectSubject" class="form-control mb-2">
+            <option value="Programming 1">Programming 1</option>
+            <option value="Data Structures">Data Structures</option>
+        </select>
+        <button class="btn btn-primary" onclick="enrollSubject()">Enroll</button>
+
+        <h4 class="mt-4">Your Enrolled Subjects</h4>
+        <ul id="enrolledSubjects" class="list-group"></ul>
+    </div>
+
+    <script>
+        let courses = [];
+        let students = [];
+        let enrollments = {};
+
+        function showAdminPanel() {
+            document.getElementById("adminPanel").classList.remove("d-none");
+            document.getElementById("studentPortal").classList.add("d-none");
+        }
+
+        function showStudentPortal() {
+            document.getElementById("studentPortal").classList.remove("d-none");
+            document.getElementById("adminPanel").classList.add("d-none");
+            populateCourses();
+        }
+
+        function goBack() {
+            document.getElementById("adminPanel").classList.add("d-none");
+            document.getElementById("studentPortal").classList.add("d-none");
+        }
+
+        function addCourse() {
+            let courseName = document.getElementById("courseName").value;
+            if (courseName) {
+                courses.push(courseName);
+                alert("Course Added: " + courseName);
+                document.getElementById("courseName").value = "";
+            }
+        }
+
+        function addStudent() {
+            let studentName = document.getElementById("studentName").value;
+            if (studentName) {
+                students.push(studentName);
+                enrollments[studentName] = [];
+                alert("Student Added: " + studentName);
+                document.getElementById("studentName").value = "";
+            }
+        }
+
+        function populateCourses() {
+            let select = document.getElementById("selectCourse");
+            select.innerHTML = "";
+            courses.forEach(course => {
+                let option = document.createElement("option");
+                option.value = course;
+                option.innerText = course;
+                select.appendChild(option);
+            });
+        }
+
+        function enrollSubject() {
+            let studentName = prompt("Enter your name:");
+            if (students.includes(studentName)) {
+                let course = document.getElementById("selectCourse").value;
+                let subject = document.getElementById("selectSubject").value;
+
+                if (subject) {
+                    enrollments[studentName].push(subject);
+                    alert(studentName + " enrolled in " + subject);
+                    updateEnrolledSubjects(studentName);
+                    updateEnrollmentChart();
+                }
+            } else {
+                alert("Student not found! Please contact the admin.");
+            }
+        }
+
+        function updateEnrolledSubjects(studentName) {
+            let list = document.getElementById("enrolledSubjects");
+            list.innerHTML = "";
+            enrollments[studentName].forEach(subject => {
+                let li = document.createElement("li");
+                li.className = "list-group-item";
+                li.innerText = subject;
+                list.appendChild(li);
+            });
+        }
+
+        function updateEnrollmentChart() {
+            let ctx = document.getElementById("enrollmentChart").getContext("2d");
+            let data = courses.map(course => enrollments[course] ? enrollments[course].length : 0);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: courses,
+                    datasets: [{
+                        label: "Enrolled Students",
+                        data: data,
+                        backgroundColor: "blue"
+                    }]
+                }
+            });
+        }
+    </script>
+</body>
+</html>
