@@ -82,34 +82,36 @@
 
     <div class="container" id="adminSection">
         <h2>Admin Panel</h2>
-        <h3>Add Course</h3>
-        <form id="courseForm">
-            <div class="form-group">
-                <label for="courseName">Course Name</label>
-                <input type="text" id="courseName" name="courseName" required>
-            </div>
-            <button type="submit" class="btn">Add Course</button>
-        </form>
 
-        <h3>Add Subject</h3>
-        <form id="subjectForm">
-            <div class="form-group">
-                <label for="subjectName">Subject Name</label>
-                <input type="text" id="subjectName" name="subjectName" required>
-            </div>
+        <h3>Add Year, Course, Term & Subjects</h3>
+        <form id="yearCourseForm">
             <div class="form-group">
                 <label for="yearLevel">Year Level</label>
-                <select id="subjectYear" name="yearLevel">
+                <select id="yearLevel">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
                     <option value="4">4th Year</option>
                 </select>
             </div>
-            <button type="submit" class="btn">Add Subject</button>
+            <div class="form-group">
+                <label for="course">Course</label>
+                <input type="text" id="course">
+            </div>
+            <div class="form-group">
+                <label for="term">Term</label>
+                <input type="text" id="term">
+            </div>
+            <div class="form-group">
+                <label for="subjects">Subjects <button type="button" onclick="addSubjectField()">+</button></label>
+                <div id="subjectsContainer">
+                    <input type="text" name="subjects[]">
+                </div>
+            </div>
+            <button class="btn">Save</button>
         </form>
 
-        <h3>Add Student</h3>
+        <h3>Enroll Student</h3>
         <form id="addStudentForm">
             <div class="form-group">
                 <label for="adminFullName">Full Name</label>
@@ -117,7 +119,7 @@
             </div>
             <div class="form-group">
                 <label for="adminCourse">Course</label>
-                <select id="adminCourse" name="adminCourse"></select>
+                <input type="text" id="adminCourse" required>
             </div>
             <div class="form-group">
                 <label for="adminYearLevel">Year Level</label>
@@ -128,23 +130,57 @@
                     <option value="4">4th Year</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="adminTerm">Term</label>
+                <input type="text" id="adminTerm" required>
+            </div>
             <button type="submit" class="btn">Add Student</button>
         </form>
+
+        <!-- Add Grade and Back Subject section will be here -->
     </div>
 
     <div class="container hidden" id="studentSection">
         <h2>Student Portal</h2>
-        <h3>Enroll in Subjects</h3>
+        <h3>Insert Student</h3>
         <form id="enrollForm">
             <div class="form-group">
                 <label for="enrollName">Full Name</label>
                 <input type="text" id="enrollName" name="enrollName" required>
             </div>
             <div class="form-group">
-                <label for="enrollSubjects">Subjects</label>
-                <input type="text" id="enrollSubjects" name="enrollSubjects" placeholder="Enter subjects (comma-separated)">
+                <label for="enrollCourse">Course</label>
+                <input type="text" id="enrollCourse" required>
             </div>
-            <button type="submit" class="btn">Enroll</button>
+            <div class="form-group">
+                <label for="enrollYear">Year Level</label>
+                <select id="enrollYear">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enrollTerm">Term</label>
+                <input type="text" id="enrollTerm" required>
+            </div>
+            <button class="btn">Show Grades</button>
+        </form>
+
+        <h3>Add Subject (for back subjects)</h3>
+        <form id="backSubjectForm">
+            <div class="form-group">
+                <label for="backName">Full Name</label>
+                <input type="text" id="backName" required>
+            </div>
+            <div class="form-group">
+                <label>Subject <button type="button" onclick="addBackSubjectField()">+</button></label>
+                <div id="backSubjectsContainer">
+                    <input type="text" name="backSubjects[]">
+                </div>
+            </div>
+            <button class="btn">Submit</button>
         </form>
     </div>
 
@@ -156,7 +192,7 @@
                     <th>Full Name</th>
                     <th>Course</th>
                     <th>Year Level</th>
-                    <th>Subjects</th>
+                    <th>Term</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -164,9 +200,6 @@
     </div>
 
     <script>
-        const courses = [];
-        const students = [];
-
         function showSection(section) {
             document.getElementById('adminSection').classList.add('hidden');
             document.getElementById('studentSection').classList.add('hidden');
@@ -174,54 +207,20 @@
             document.getElementById(section).classList.remove('hidden');
         }
 
-        document.getElementById('courseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const courseName = document.getElementById('courseName').value;
-            if (courseName) {
-                courses.push(courseName);
-                alert(`${courseName} added successfully!`);
-                updateCourseDropdown();
-                document.getElementById('courseForm').reset();
-            }
-        });
+        function addSubjectField() {
+            const container = document.getElementById('subjectsContainer');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'subjects[]';
+            container.appendChild(input);
+        }
 
-        document.getElementById('subjectForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const subjectName = document.getElementById('subjectName').value;
-            const subjectYear = document.getElementById('subjectYear').value;
-            alert(`${subjectName} for Year ${subjectYear} added successfully!`);
-            document.getElementById('subjectForm').reset();
-        });
-
-        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const fullName = document.getElementById('adminFullName').value;
-            const course = document.getElementById('adminCourse').value;
-            const yearLevel = document.getElementById('adminYearLevel').value;
-            const table = document.querySelector('#studentTable tbody');
-            const newRow = table.insertRow();
-            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td><td>-</td>`;
-            students.push({ fullName, course, yearLevel, subjects: '-' });
-            document.getElementById('addStudentForm').reset();
-        });
-
-        document.getElementById('enrollForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const enrollName = document.getElementById('enrollName').value;
-            const enrollSubjects = document.getElementById('enrollSubjects').value;
-            const table = document.querySelector('#studentTable tbody');
-            for (let row of table.rows) {
-                if (row.cells[0].innerText === enrollName) {
-                    row.cells[3].innerText = enrollSubjects;
-                }
-            }
-            alert(`${enrollName} enrolled successfully with subjects: ${enrollSubjects}`);
-            document.getElementById('enrollForm').reset();
-        });
-
-        function updateCourseDropdown() {
-            const courseDropdown = document.getElementById('adminCourse');
-            courseDropdown.innerHTML = courses.map(course => `<option value="${course}">${course}</option>`).join('');
+        function addBackSubjectField() {
+            const container = document.getElementById('backSubjectsContainer');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'backSubjects[]';
+            container.appendChild(input);
         }
     </script>
 </body>
