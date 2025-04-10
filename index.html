@@ -1,92 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
+            margin: 20px;
         }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 1rem;
-            text-align: center;
+
+        h2 {
+            color: #000;
         }
-        nav {
-            background-color: #343a40;
-            padding: 0.5rem;
-            text-align: center;
+
+        h3 {
+            color: #1a73e8;
+            margin-top: 30px;
         }
-        nav a {
-            color: white;
-            margin: 0 1rem;
-            text-decoration: none;
-            cursor: pointer;
-        }
+
         .container {
-            padding: 2rem;
+            margin-bottom: 40px;
         }
+
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
         }
+
         label {
+            display: block;
             font-weight: bold;
+            margin-bottom: 5px;
         }
-        input, select, button {
-            width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.3rem;
+
+        input, select {
+            width: 250px;
+            padding: 5px;
+            margin-bottom: 10px;
         }
+
         .btn {
-            background-color: #28a745;
+            padding: 5px 10px;
+            background-color: #1a73e8;
             color: white;
             border: none;
-            padding: 0.7rem;
             cursor: pointer;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
+
+        .btn:hover {
+            background-color: #0f5dc7;
         }
-        table, th, td {
-            border: 1px solid #ddd;
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
         }
-        th, td {
-            padding: 0.75rem;
-            text-align: left;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-        .hidden {
-            display: none;
+
+        .panel {
+            flex: 1;
+            min-width: 300px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>School Portal</h1>
-    </header>
-    <nav>
-        <a onclick="showSection('adminSection')">Admin Panel</a>
-        <a onclick="showSection('studentSection')">Student Portal</a>
-        <a onclick="showSection('enrolledSection')">Enrolled Students</a>
-    </nav>
 
-    <div class="container" id="adminSection">
-        <h2>Admin Panel</h2>
+<h2>School Portal</h2>
 
-        <h3>Add Year, Course, Term & Subjects</h3>
-        <form id="yearCourseForm">
+<div class="grid">
+    <div class="panel">
+        <h3>Admin Panel - Add Subjects</h3>
+        <form id="adminSubjectForm">
             <div class="form-group">
-                <label for="yearLevel">Year Level</label>
+                <label for="yearLevel">Year Level:</label>
                 <select id="yearLevel">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
@@ -95,96 +79,33 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="course">Course</label>
+                <label for="course">Course:</label>
                 <input type="text" id="course">
             </div>
             <div class="form-group">
-                <label for="term">Term</label>
+                <label for="term">Term:</label>
                 <input type="text" id="term">
             </div>
             <div class="form-group">
-                <label for="subjects">Subjects <button type="button" onclick="addSubjectField()">+</button></label>
-                <div id="subjectsContainer">
-                    <input type="text" name="subjects[]">
-                </div>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject">
             </div>
-            <button class="btn">Save</button>
-        </form>
-
-        <h3>Enroll Student</h3>
-        <form id="addStudentForm">
-            <div class="form-group">
-                <label for="adminFullName">Full Name</label>
-                <input type="text" id="adminFullName" name="adminFullName" required>
-            </div>
-            <div class="form-group">
-                <label for="adminCourse">Course</label>
-                <input type="text" id="adminCourse" required>
-            </div>
-            <div class="form-group">
-                <label for="adminYearLevel">Year Level</label>
-                <select id="adminYearLevel" name="adminYearLevel">
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="adminTerm">Term</label>
-                <input type="text" id="adminTerm" required>
-            </div>
-            <button type="submit" class="btn">Add Student</button>
+            <button class="btn" type="submit">Save Subject</button>
         </form>
 
         <h3>Enter Grades</h3>
-        <form id="gradeForm">
+        <form id="enterGradesForm">
             <div class="form-group">
-                <label for="gradeStudentName">Student Full Name</label>
-                <input type="text" id="gradeStudentName" required>
+                <label for="gradeFullName">Full Name:</label>
+                <input type="text" id="gradeFullName" required>
             </div>
             <div class="form-group">
-                <label for="gradeSubject">Subject</label>
-                <input type="text" id="gradeSubject" required>
+                <label for="gradeCourse">Course:</label>
+                <input type="text" id="gradeCourse" required>
             </div>
             <div class="form-group">
-                <label for="gradeValue">Grade</label>
-                <input type="text" id="gradeValue" required>
-            </div>
-            <button class="btn">Submit Grade</button>
-        </form>
-
-        <h3>Add Back Subject</h3>
-        <form id="backSubjectAdminForm">
-            <div class="form-group">
-                <label for="backAdminName">Student Full Name</label>
-                <input type="text" id="backAdminName" required>
-            </div>
-            <div class="form-group">
-                <label>Subject <button type="button" onclick="addBackSubjectField()">+</button></label>
-                <div id="backSubjectsContainer">
-                    <input type="text" name="backSubjects[]">
-                </div>
-            </div>
-            <button class="btn">Add Back Subject</button>
-        </form>
-    </div>
-
-    <div class="container hidden" id="studentSection">
-        <h2>Student Portal</h2>
-        <h3>Insert Student</h3>
-        <form id="enrollForm">
-            <div class="form-group">
-                <label for="enrollName">Full Name</label>
-                <input type="text" id="enrollName" name="enrollName" required>
-            </div>
-            <div class="form-group">
-                <label for="enrollCourse">Course</label>
-                <input type="text" id="enrollCourse" required>
-            </div>
-            <div class="form-group">
-                <label for="enrollYear">Year Level</label>
-                <select id="enrollYear">
+                <label for="gradeYearLevel">Year Level:</label>
+                <select id="gradeYearLevel">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
@@ -192,51 +113,107 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="enrollTerm">Term</label>
-                <input type="text" id="enrollTerm" required>
+                <label for="gradeTerm">Term:</label>
+                <input type="text" id="gradeTerm" required>
             </div>
-            <button class="btn">Show Grades</button>
+            <div class="form-group">
+                <label>Subjects and Grades <button type="button" onclick="addGradeField()">+</button></label>
+                <div id="gradesContainer">
+                    <div style="display: flex; gap: 10px; margin-bottom: 0.5rem;">
+                        <input type="text" name="subjectName[]" placeholder="Subject">
+                        <input type="text" name="subjectGrade[]" placeholder="Grade">
+                    </div>
+                </div>
+            </div>
+            <button class="btn" type="submit">Save Grades</button>
+        </form>
+
+        <h3>Add Back Subject</h3>
+        <form id="adminBackSubjectForm">
+            <div class="form-group">
+                <label for="adminBackFullName">Full Name:</label>
+                <input type="text" id="adminBackFullName" required>
+            </div>
+            <div class="form-group">
+                <label>Back Subjects <button type="button" onclick="addAdminBackSubjectField()">+</button></label>
+                <div id="adminBackSubjectsContainer">
+                    <input type="text" name="adminBackSubjects[]">
+                </div>
+            </div>
+            <button class="btn" type="submit">Submit Back Subjects</button>
         </form>
     </div>
 
-    <div class="container hidden" id="enrolledSection">
-        <h2>Enrolled Students</h2>
-        <table id="studentTable">
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Course</th>
-                    <th>Year Level</th>
-                    <th>Term</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <div class="panel">
+        <h3>Enroll Student</h3>
+        <form id="enrollForm">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName">
+            </div>
+            <div class="form-group">
+                <label for="enrollCourse">Course:</label>
+                <input type="text" id="enrollCourse">
+            </div>
+            <div class="form-group">
+                <label for="enrollYearLevel">Year Level:</label>
+                <select id="enrollYearLevel">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enrollTerm">Term:</label>
+                <input type="text" id="enrollTerm">
+            </div>
+            <button class="btn" type="submit">Add Student</button>
+        </form>
+
+        <h3>Student Portal</h3>
+        <div class="form-group">
+            <label for="studentSelector">View Grades for:</label>
+            <select id="studentSelector">
+                <option>Select a student</option>
+            </select>
+        </div>
+        <button class="btn">Subject</button>
+        <button class="btn">Average</button>
     </div>
+</div>
 
-    <script>
-        function showSection(section) {
-            document.getElementById('adminSection').classList.add('hidden');
-            document.getElementById('studentSection').classList.add('hidden');
-            document.getElementById('enrolledSection').classList.add('hidden');
-            document.getElementById(section).classList.remove('hidden');
-        }
+<script>
+    function addGradeField() {
+        const container = document.getElementById('gradesContainer');
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '10px';
+        row.style.marginBottom = '0.5rem';
 
-        function addSubjectField() {
-            const container = document.getElementById('subjectsContainer');
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = 'subjects[]';
-            container.appendChild(input);
-        }
+        const subjectInput = document.createElement('input');
+        subjectInput.type = 'text';
+        subjectInput.name = 'subjectName[]';
+        subjectInput.placeholder = 'Subject';
 
-        function addBackSubjectField() {
-            const container = document.getElementById('backSubjectsContainer');
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = 'backSubjects[]';
-            container.appendChild(input);
-        }
-    </script>
+        const gradeInput = document.createElement('input');
+        gradeInput.type = 'text';
+        gradeInput.name = 'subjectGrade[]';
+        gradeInput.placeholder = 'Grade';
+
+        row.appendChild(subjectInput);
+        row.appendChild(gradeInput);
+        container.appendChild(row);
+    }
+
+    function addAdminBackSubjectField() {
+        const container = document.getElementById('adminBackSubjectsContainer');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'adminBackSubjects[]';
+        container.appendChild(input);
+    }
+</script>
+
 </body>
 </html>
