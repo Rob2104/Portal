@@ -192,7 +192,6 @@
                 <input type="text" placeholder="Term">
             </div>
         </form>
-        <button class="btn" onclick="showGrades()">Show Grade</button>
         <table>
             <thead>
                 <tr><th>Subject</th><th>Average</th></tr>
@@ -201,6 +200,7 @@
                 
             </tbody>
         </table>
+        <button onclick="showGrades()">Show Grades</button>
         <h3>Add Subject (for back subjects)</h3>
         <form id="searchBackSubjectForm">
             <div class="form-group">
@@ -213,9 +213,10 @@
                 <tr><th>Subject</th><th>Average</th></tr>
             </thead>
             <tbody id="backGradesTableBody">
-              
+                
             </tbody>
         </table>
+        <button onclick="showBackGrades()">Show Back Grades</button>
     </div>
 
     <div class="container hidden" id="enrolledSection">
@@ -275,20 +276,19 @@
         }
 
         function showGrades() {
-            const gradesTableBody = document.getElementById('gradesTableBody');
-            gradesTableBody.innerHTML = ''; 
+            
+            const tableBody = document.getElementById('gradesTableBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>Math</td><td>85</td>`;
+            tableBody.appendChild(row);
+        }
 
-            const sampleGrades = [
-                { subject: 'Mathematics', average: '89.5' },
-                { subject: 'Science', average: '91.0' },
-                { subject: 'English', average: '87.75' }
-            ];
-
-            sampleGrades.forEach(grade => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${grade.subject}</td><td>${grade.average}</td>`;
-                gradesTableBody.appendChild(row);
-            });
+        function showBackGrades() {
+            
+            const tableBody = document.getElementById('backGradesTableBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>History</td><td>75</td>`;
+            tableBody.appendChild(row);
         }
     </script>
 </body>
