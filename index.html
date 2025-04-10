@@ -82,78 +82,139 @@
 
     <div class="container" id="adminSection">
         <h2>Admin Panel</h2>
-        <h3>Add Course</h3>
-        <form id="courseForm">
+        <h3>Add Course with Year, Term & Subjects</h3>
+        <form id="courseWithSubjectsForm">
             <div class="form-group">
-                <label for="courseName">Course Name</label>
-                <input type="text" id="courseName" name="courseName" required>
-            </div>
-            <button type="submit" class="btn">Add Course</button>
-        </form>
-
-        <h3>Add Subject</h3>
-        <form id="subjectForm">
-            <div class="form-group">
-                <label for="subjectName">Subject Name</label>
-                <input type="text" id="subjectName" name="subjectName" required>
+                <label for="courseWithSubjects">Course Name</label>
+                <input type="text" id="courseWithSubjects" name="courseWithSubjects" required>
             </div>
             <div class="form-group">
                 <label for="yearLevel">Year Level</label>
-                <select id="subjectYear" name="yearLevel">
+                <select id="yearLevel" name="yearLevel">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
                     <option value="4">4th Year</option>
                 </select>
             </div>
-            <button type="submit" class="btn">Add Subject</button>
+            <div class="form-group">
+                <label for="term">Term</label>
+                <input type="text" id="term" name="term" placeholder="e.g. Tri-sem" required>
+            </div>
+            <div class="form-group">
+                <label>Subjects</label>
+                <div id="subjectsContainer">
+                    <input type="text" name="subjects[]" placeholder="Subject - Midterm + Final" required>
+                </div>
+                <button type="button" onclick="addSubjectInput()">+ Add Subject</button>
+            </div>
+            <button type="submit" class="btn">Add Course Bundle</button>
         </form>
 
-        <h3>Add Student</h3>
-        <form id="addStudentForm">
+        <h3>Enroll Student</h3>
+        <form id="enrollStudentForm">
             <div class="form-group">
-                <label for="adminFullName">Full Name</label>
-                <input type="text" id="adminFullName" name="adminFullName" required>
+                <label for="studentName">Full Name</label>
+                <input type="text" id="studentName" name="studentName" required>
             </div>
             <div class="form-group">
-                <label for="adminCourse">Course</label>
-                <select id="adminCourse" name="adminCourse"></select>
+                <label for="studentCourse">Course</label>
+                <input type="text" id="studentCourse" name="studentCourse" required>
             </div>
             <div class="form-group">
-                <label for="adminYearLevel">Year Level</label>
-                <select id="adminYearLevel" name="adminYearLevel">
+                <label for="studentYear">Year Level</label>
+                <select id="studentYear" name="studentYear">
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
                     <option value="4">4th Year</option>
                 </select>
             </div>
-            <button type="submit" class="btn">Add Student</button>
+            <div class="form-group">
+                <label for="studentTerm">Term</label>
+                <input type="text" id="studentTerm" name="studentTerm" placeholder="e.g. Tri-sem" required>
+            </div>
+            <button type="submit" class="btn">Enroll Student</button>
+        </form>
+
+        <h3>Enter Grades</h3>
+        <form id="gradeForm">
+            <div class="form-group">
+                <label>Choose a Student</label>
+                <input type="text" id="gradeStudent" placeholder="Student Name" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="gradeCourse" placeholder="Course" required>
+                <input type="text" id="gradeYear" placeholder="Year Level" required>
+                <input type="text" id="gradeTerm" placeholder="Term" required>
+            </div>
+            <div id="gradeSubjectsContainer">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" placeholder="Subject Name">
+                    <input type="number" placeholder="Midterm"> + 
+                    <input type="number" placeholder="Final"> = 
+                    <input type="text" placeholder="Average" readonly>
+                </div>
+            </div>
+            <button type="button" onclick="addGradeSubject()">+ Add Subject</button>
+            <button type="submit" class="btn">Save Grades</button>
+        </form>
+
+        <h3>Back Subjects</h3>
+        <form id="backSubjectForm">
+            <div class="form-group">
+                <label for="backStudent">Student Name</label>
+                <input type="text" id="backStudent" name="backStudent" required>
+            </div>
+            <div id="backSubjectsContainer">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" placeholder="Subject Name">
+                    <input type="number" placeholder="Midterm"> + 
+                    <input type="number" placeholder="Final"> = 
+                    <input type="text" placeholder="Average" readonly>
+                </div>
+            </div>
+            <button type="button" onclick="addBackSubject()">+ Add Subject</button>
+            <button type="submit" class="btn">Add Back Subjects</button>
         </form>
     </div>
 
     <div class="container hidden" id="studentSection">
         <h2>Student Portal</h2>
         <h3>Insert Student</h3>
-        <form id="enrollForm">
+        <form id="searchStudentForm">
             <div class="form-group">
-                <label for="enrollName">Full Name</label>
-                <input type="text" id="enrollName" name="enrollName" required>
+                <input type="text" placeholder="Student Name">
+                <input type="text" placeholder="Course">
+                <input type="text" placeholder="Year Level">
+                <input type="text" placeholder="Term">
             </div>
-            <div class="form-group">
-                <label for="enrollCourse">Course</label>
-                <input type="text" id="enrollCourse" name="enrollCourse">
-            </div>
-            <div class="form-group">
-                <label for="enrollYear">Year Level</label>
-                <input type="text" id="enrollYear" name="enrollYear">
-            </div>
-            <div class="form-group">
-                <label for="enrollTerm">Term</label>
-                <input type="text" id="enrollTerm" name="enrollTerm">
-            </div>
-            <button type="submit" class="btn">Show Grade</button>
         </form>
+        <table>
+            <thead>
+                <tr><th>Subject</th><th>Average</th></tr>
+            </thead>
+            <tbody id="gradesTableBody">
+                <!-- Data will go here -->
+            </tbody>
+        </table>
+        <h3>Add Subject (for back subjects)</h3>
+        <form id="searchBackSubjectForm">
+            <div class="form-group">
+                <input type="text" placeholder="Student Name">
+                <input type="text" placeholder="Back Subject">
+            </div>
+        </form>
+        <table>
+            <thead>
+                <tr><th>Subject</th><th>Average</th></tr>
+            </thead>
+            <tbody id="backGradesTableBody">
+                <!-- Data will go here -->
+            </tbody>
+        </table>
     </div>
 
     <div class="container hidden" id="enrolledSection">
@@ -172,9 +233,6 @@
     </div>
 
     <script>
-        const courses = [];
-        const students = [];
-
         function showSection(section) {
             document.getElementById('adminSection').classList.add('hidden');
             document.getElementById('studentSection').classList.add('hidden');
@@ -182,40 +240,37 @@
             document.getElementById(section).classList.remove('hidden');
         }
 
-        document.getElementById('courseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const courseName = document.getElementById('courseName').value;
-            if (courseName) {
-                courses.push(courseName);
-                alert(`${courseName} added successfully!`);
-                updateCourseDropdown();
-                document.getElementById('courseForm').reset();
-            }
-        });
+        function addSubjectInput() {
+            const container = document.getElementById('subjectsContainer');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'subjects[]';
+            input.placeholder = 'Subject - Midterm + Final';
+            container.appendChild(input);
+        }
 
-        document.getElementById('subjectForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const subjectName = document.getElementById('subjectName').value;
-            const subjectYear = document.getElementById('subjectYear').value;
-            alert(`${subjectName} for Year ${subjectYear} added successfully!`);
-            document.getElementById('subjectForm').reset();
-        });
+        function addGradeSubject() {
+            const container = document.getElementById('gradeSubjectsContainer');
+            const group = document.createElement('div');
+            group.className = 'form-group';
+            group.innerHTML = `<label>Subject</label>
+                <input type="text" placeholder="Subject Name">
+                <input type="number" placeholder="Midterm"> + 
+                <input type="number" placeholder="Final"> = 
+                <input type="text" placeholder="Average" readonly>`;
+            container.appendChild(group);
+        }
 
-        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const fullName = document.getElementById('adminFullName').value;
-            const course = document.getElementById('adminCourse').value;
-            const yearLevel = document.getElementById('adminYearLevel').value;
-            const table = document.querySelector('#studentTable tbody');
-            const newRow = table.insertRow();
-            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td><td>Tri-sem</td>`;
-            students.push({ fullName, course, yearLevel, term: 'Tri-sem' });
-            document.getElementById('addStudentForm').reset();
-        });
-
-        function updateCourseDropdown() {
-            const courseDropdown = document.getElementById('adminCourse');
-            courseDropdown.innerHTML = courses.map(course => `<option value="${course}">${course}</option>`).join('');
+        function addBackSubject() {
+            const container = document.getElementById('backSubjectsContainer');
+            const group = document.createElement('div');
+            group.className = 'form-group';
+            group.innerHTML = `<label>Subject</label>
+                <input type="text" placeholder="Subject Name">
+                <input type="number" placeholder="Midterm"> + 
+                <input type="number" placeholder="Final"> = 
+                <input type="text" placeholder="Average" readonly>`;
+            container.appendChild(group);
         }
     </script>
 </body>
