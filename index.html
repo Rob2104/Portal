@@ -82,39 +82,34 @@
 
     <div class="container" id="adminSection">
         <h2>Admin Panel</h2>
-
-        <h3>Add Course with Year, Term & Subjects</h3>
-        <form id="courseBundleForm">
+        <h3>Add Course</h3>
+        <form id="courseForm">
             <div class="form-group">
-                <label for="bundleCourseName">Course Name</label>
-                <input type="text" id="bundleCourseName" name="bundleCourseName" required>
+                <label for="courseName">Course Name</label>
+                <input type="text" id="courseName" name="courseName" required>
             </div>
-            <div class="form-group">
-                <label for="bundleYearLevel">Year Level</label>
-                <select id="bundleYearLevel" name="bundleYearLevel">
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="bundleTerm">Term</label>
-                <select id="bundleTerm" name="bundleTerm">
-                    <option value="1st Term">1st Term</option>
-                    <option value="2nd Term">2nd Term</option>
-                    <option value="3rd Term">3rd Term</option>
-                </select>
-            </div>
-            <div class="form-group" id="subjectInputs">
-                <label>Subjects</label>
-                <input type="text" name="subjects[]" placeholder="Enter Subject">
-            </div>
-            <button type="button" class="btn" onclick="addSubjectField()">+ Add Subject</button>
-            <button type="submit" class="btn" style="background-color: #28a745;">Add Course Bundle</button>
+            <button type="submit" class="btn">Add Course</button>
         </form>
 
-        <h3>Enroll Student</h3>
+        <h3>Add Subject</h3>
+        <form id="subjectForm">
+            <div class="form-group">
+                <label for="subjectName">Subject Name</label>
+                <input type="text" id="subjectName" name="subjectName" required>
+            </div>
+            <div class="form-group">
+                <label for="yearLevel">Year Level</label>
+                <select id="subjectYear" name="yearLevel">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Add Subject</button>
+        </form>
+
+        <h3>Add Student</h3>
         <form id="addStudentForm">
             <div class="form-group">
                 <label for="adminFullName">Full Name</label>
@@ -139,17 +134,25 @@
 
     <div class="container hidden" id="studentSection">
         <h2>Student Portal</h2>
-        <h3>Enroll in Subjects</h3>
+        <h3>Insert Student</h3>
         <form id="enrollForm">
             <div class="form-group">
                 <label for="enrollName">Full Name</label>
                 <input type="text" id="enrollName" name="enrollName" required>
             </div>
             <div class="form-group">
-                <label for="enrollSubjects">Subjects</label>
-                <input type="text" id="enrollSubjects" name="enrollSubjects" placeholder="Enter subjects (comma-separated)">
+                <label for="enrollCourse">Course</label>
+                <input type="text" id="enrollCourse" name="enrollCourse">
             </div>
-            <button type="submit" class="btn">Enroll</button>
+            <div class="form-group">
+                <label for="enrollYear">Year Level</label>
+                <input type="text" id="enrollYear" name="enrollYear">
+            </div>
+            <div class="form-group">
+                <label for="enrollTerm">Term</label>
+                <input type="text" id="enrollTerm" name="enrollTerm">
+            </div>
+            <button type="submit" class="btn">Show Grade</button>
         </form>
     </div>
 
@@ -162,7 +165,6 @@
                     <th>Course</th>
                     <th>Year Level</th>
                     <th>Term</th>
-                    <th>Subjects</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -180,16 +182,7 @@
             document.getElementById(section).classList.remove('hidden');
         }
 
-        function addSubjectField() {
-            const subjectInputs = document.getElementById("subjectInputs");
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = "subjects[]";
-            input.placeholder = "Enter Subject";
-            subjectInputs.appendChild(input);
-        }
-
-        document.getElementById('courseForm')?.addEventListener('submit', function(e) {
+        document.getElementById('courseForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const courseName = document.getElementById('courseName').value;
             if (courseName) {
@@ -200,31 +193,24 @@
             }
         });
 
+        document.getElementById('subjectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subjectName = document.getElementById('subjectName').value;
+            const subjectYear = document.getElementById('subjectYear').value;
+            alert(`${subjectName} for Year ${subjectYear} added successfully!`);
+            document.getElementById('subjectForm').reset();
+        });
+
         document.getElementById('addStudentForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const fullName = document.getElementById('adminFullName').value;
             const course = document.getElementById('adminCourse').value;
             const yearLevel = document.getElementById('adminYearLevel').value;
-            const term = "Tri-sem";
             const table = document.querySelector('#studentTable tbody');
             const newRow = table.insertRow();
-            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td><td>${term}</td><td>-</td>`;
-            students.push({ fullName, course, yearLevel, term, subjects: '-' });
+            newRow.innerHTML = `<td>${fullName}</td><td>${course}</td><td>${yearLevel}</td><td>Tri-sem</td>`;
+            students.push({ fullName, course, yearLevel, term: 'Tri-sem' });
             document.getElementById('addStudentForm').reset();
-        });
-
-        document.getElementById('enrollForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const enrollName = document.getElementById('enrollName').value;
-            const enrollSubjects = document.getElementById('enrollSubjects').value;
-            const table = document.querySelector('#studentTable tbody');
-            for (let row of table.rows) {
-                if (row.cells[0].innerText === enrollName) {
-                    row.cells[4].innerText = enrollSubjects;
-                }
-            }
-            alert(`${enrollName} enrolled successfully with subjects: ${enrollSubjects}`);
-            document.getElementById('enrollForm').reset();
         });
 
         function updateCourseDropdown() {
