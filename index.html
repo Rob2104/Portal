@@ -192,12 +192,13 @@
                 <input type="text" placeholder="Term">
             </div>
         </form>
+        <button class="btn" onclick="showGrades()">Show Grade</button>
         <table>
             <thead>
                 <tr><th>Subject</th><th>Average</th></tr>
             </thead>
             <tbody id="gradesTableBody">
-                <!-- Data will go here -->
+                
             </tbody>
         </table>
         <h3>Add Subject (for back subjects)</h3>
@@ -212,7 +213,7 @@
                 <tr><th>Subject</th><th>Average</th></tr>
             </thead>
             <tbody id="backGradesTableBody">
-                <!-- Data will go here -->
+              
             </tbody>
         </table>
     </div>
@@ -271,6 +272,23 @@
                 <input type="number" placeholder="Final"> = 
                 <input type="text" placeholder="Average" readonly>`;
             container.appendChild(group);
+        }
+
+        function showGrades() {
+            const gradesTableBody = document.getElementById('gradesTableBody');
+            gradesTableBody.innerHTML = ''; 
+
+            const sampleGrades = [
+                { subject: 'Mathematics', average: '89.5' },
+                { subject: 'Science', average: '91.0' },
+                { subject: 'English', average: '87.75' }
+            ];
+
+            sampleGrades.forEach(grade => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${grade.subject}</td><td>${grade.average}</td>`;
+                gradesTableBody.appendChild(row);
+            });
         }
     </script>
 </body>
